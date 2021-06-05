@@ -8,6 +8,9 @@ export function add(_object: any) {
     let svg = _object.writeTexElement.elt.querySelectorAll('svg');
     svg[0].setAttribute('width', `${_object.width_svg}px`);
     svg[0].setAttribute('height', `${_object.height_svg}px`);
+    svg[0].setAttribute('stroke', _object._stroke);
+    svg[0].setAttribute('stroke-width', _object._strokeWidth);
+    svg[0].setAttribute('fill', _object._fill);
 
     // g[0].setAttribute('fill', 'none');
     // g[0].setAttribute('stroke-width', '10px');

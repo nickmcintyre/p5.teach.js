@@ -34,6 +34,9 @@ export class TeX {
   width_svg: number;
   height_svg: number;
   sentence: string;
+  _stroke: string;
+  _strokeWidth: number;
+  _fill: any;
   constructor(
     sentence: string,
     //timeDuration: number,
@@ -49,6 +52,9 @@ export class TeX {
     this.width_svg = width_svg;
     this.height_svg = height_svg;
     this.SVGEquation = TeXToSVG(sentence);
+    this._stroke = 'black';
+    this._strokeWidth = 10;
+    this._fill = 'black';
   }
 
   // all_at_once(timeDuration: number) {

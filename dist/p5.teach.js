@@ -38494,6 +38494,9 @@ function () {
     this.width_svg = width_svg;
     this.height_svg = height_svg;
     this.SVGEquation = tex_to_svg_1.default(sentence);
+    this._stroke = 'black';
+    this._strokeWidth = 10;
+    this._fill = 'black';
   }
 
   return TeX;
@@ -40335,7 +40338,10 @@ function add(_object) {
     var svg = _object.writeTexElement.elt.querySelectorAll('svg');
 
     svg[0].setAttribute('width', _object.width_svg + "px");
-    svg[0].setAttribute('height', _object.height_svg + "px"); // g[0].setAttribute('fill', 'none');
+    svg[0].setAttribute('height', _object.height_svg + "px");
+    svg[0].setAttribute('stroke', _object._stroke);
+    svg[0].setAttribute('stroke-width', _object._strokeWidth);
+    svg[0].setAttribute('fill', _object._fill); // g[0].setAttribute('fill', 'none');
     // g[0].setAttribute('stroke-width', '10px');
 
     _object.writeTexElement.position(_object.x, _object.y);
@@ -40386,7 +40392,7 @@ function play(_object, animation_type, timeDuration) {
     animation_type = 'write';
   }
 
-  if (timeDuration == null) {
+  if (timeDuration === null) {
     timeDuration = 50 * _object.sentence.length;
   }
 
@@ -40399,7 +40405,7 @@ function play(_object, animation_type, timeDuration) {
 
     console.log('TeX');
 
-    if (animation_type == 'write') {
+    if (animation_type === 'write') {
       //write(_object, timeDuration);
       // _object.writeTexElement = createDiv(_object.SVGEquation);
       // let svg = _object.writeTexElement.elt.querySelectorAll('svg');
@@ -40417,17 +40423,17 @@ function play(_object, animation_type, timeDuration) {
       }).add({
         targets: _object.writeTexElement.elt.querySelectorAll('path'),
         //scale: [4, 1],
-        fill: ['rgba(0,0,0,0)', '#000000'],
+        fill: [color(_object._fill).toString(), _object._fill],
         //stroke : "black",     //customisable through config
         //stroke-width: "10px", //customisable through config
         strokeDashoffset: [animejs_1.default.setDashoffset, 0],
         opacity: [0, 1],
         begin: function begin(anim) {
           g_1[0].setAttribute('fill', 'none');
-          g_1[0].setAttribute('stroke-width', '10px');
+          g_1[0].setAttribute('stroke-width', _object._strokeWidth + "px");
         },
         complete: function complete(anim) {
-          g_1[0].setAttribute('fill', 'black');
+          g_1[0].setAttribute('fill', "" + _object._fill);
         },
         easing: 'easeInOutCubic',
         duration: timeDuration,
@@ -40435,7 +40441,7 @@ function play(_object, animation_type, timeDuration) {
           start: 0
         })
       });
-    } else if (animation_type == 'all-at-once') {
+    } else if (animation_type === 'all-at-once') {
       //_object.all_at_once(timeDuration);
       // _object.writeTexElement = createDiv(_object.SVGEquation);
       // let svg = _object.writeTexElement.elt.querySelectorAll('svg');
@@ -40461,19 +40467,19 @@ function play(_object, animation_type, timeDuration) {
             direction: 'normal'
           }),
           begin: function begin(anim) {
-            pathEl.setAttribute('stroke', 'black');
+            pathEl.setAttribute('stroke', "" + _object._stroke);
             pathEl.setAttribute('fill', 'none');
             g_2[0].setAttribute('fill', 'none');
-            g_2[0].setAttribute('stroke-width', '10px');
+            g_2[0].setAttribute('stroke-width', _object._strokeWidth + "px");
           },
           complete: function complete(anim) {
-            pathEl.setAttribute('fill', 'black');
-            g_2[0].setAttribute('fill', 'black');
+            pathEl.setAttribute('fill', "" + _object._fill);
+            g_2[0].setAttribute('fill', "" + _object._fill);
           },
           autoplay: true
         });
       }
-    } else if (animation_type == 'fade-in') {
+    } else if (animation_type === 'fade-in') {
       console.log('fadeIn called');
       animejs_1.default({
         targets: _object.writeTexElement.elt.querySelectorAll('svg'),
@@ -40491,7 +40497,7 @@ function play(_object, animation_type, timeDuration) {
           start: 1000
         })
       });
-    } else if (animation_type == 'appear') {
+    } else if (animation_type === 'appear') {
       console.log('appear called');
       animejs_1.default({
         //targets: _object.writeTexElement.elt.querySelectorAll('svg'), //simple fadeIn
@@ -40510,7 +40516,7 @@ function play(_object, animation_type, timeDuration) {
           direction: 'normal'
         })
       });
-    } else if (animation_type == 'dissolve') {
+    } else if (animation_type === 'dissolve') {
       console.log('dissolve called'); //add(_object);
 
       animejs_1.default({
@@ -40529,7 +40535,7 @@ function play(_object, animation_type, timeDuration) {
           start: 1000
         })
       });
-    } else if (animation_type == 'fade-out') {
+    } else if (animation_type === 'fade-out') {
       console.log('fadeout called');
       animejs_1.default({
         targets: _object.writeTexElement.elt.querySelectorAll('svg'),
@@ -40547,7 +40553,7 @@ function play(_object, animation_type, timeDuration) {
           start: 1000
         })
       });
-    } else if (animation_type == 'blink') {
+    } else if (animation_type === 'blink') {
       console.log('blink');
       var animation = animejs_1.default({
         targets: _object.writeTexElement.elt.querySelectorAll('svg'),
@@ -40570,7 +40576,7 @@ function play(_object, animation_type, timeDuration) {
 
       _object.writeTextElement.style('opacity', '1');
 
-      if (animation_type == 'write') {
+      if (animation_type === 'write') {
         animejs_1.default.timeline({
           loop: false
         }).add({
@@ -40585,7 +40591,7 @@ function play(_object, animation_type, timeDuration) {
           }) //time duration must be replaced with delay
 
         });
-      } else if (animation_type == 'all-at-once') {
+      } else if (animation_type === 'all-at-once') {
         console.log('all at once');
       }
     }
@@ -40656,7 +40662,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56893" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57984" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

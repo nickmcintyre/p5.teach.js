@@ -24,7 +24,7 @@ export function play(
   animation_type: string = 'write',
   timeDuration: number
 ) {
-  if (timeDuration == null) {
+  if (timeDuration === null) {
     timeDuration = 50 * _object.sentence.length;
   }
   if (_object instanceof TeX) {
@@ -34,7 +34,7 @@ export function play(
     }
     //tex animations
     console.log('TeX');
-    if (animation_type == 'write') {
+    if (animation_type === 'write') {
       //write(_object, timeDuration);
       // _object.writeTexElement = createDiv(_object.SVGEquation);
       // let svg = _object.writeTexElement.elt.querySelectorAll('svg');
@@ -49,23 +49,23 @@ export function play(
       anime.timeline({ loop: false }).add({
         targets: _object.writeTexElement.elt.querySelectorAll('path'),
         //scale: [4, 1],
-        fill: ['rgba(0,0,0,0)', '#000000'], //TODO : fill is black by default can be customised through config files
+        fill: [color(_object._fill).toString(), _object._fill], //TODO : fill is black by default can be customised through config files
         //stroke : "black",     //customisable through config
         //stroke-width: "10px", //customisable through config
         strokeDashoffset: [anime.setDashoffset, 0],
         opacity: [0, 1],
         begin: function (anim) {
           g[0].setAttribute('fill', 'none');
-          g[0].setAttribute('stroke-width', '10px');
+          g[0].setAttribute('stroke-width', `${_object._strokeWidth}px`);
         },
         complete: function (anim) {
-          g[0].setAttribute('fill', 'black');
+          g[0].setAttribute('fill', `${_object._fill}`);
         },
         easing: 'easeInOutCubic',
         duration: timeDuration,
         delay: anime.stagger(400, { start: 0 })
       });
-    } else if (animation_type == 'all-at-once') {
+    } else if (animation_type === 'all-at-once') {
       //_object.all_at_once(timeDuration);
       // _object.writeTexElement = createDiv(_object.SVGEquation);
       // let svg = _object.writeTexElement.elt.querySelectorAll('svg');
@@ -88,19 +88,19 @@ export function play(
           duration: timeDuration,
           delay: anime.stagger(1000, { direction: 'normal' }), //customisable through config
           begin: function (anim) {
-            pathEl.setAttribute('stroke', 'black');
+            pathEl.setAttribute('stroke', `${_object._stroke}`);
             pathEl.setAttribute('fill', 'none');
             g[0].setAttribute('fill', 'none');
-            g[0].setAttribute('stroke-width', '10px');
+            g[0].setAttribute('stroke-width', `${_object._strokeWidth}px`);
           },
           complete: function (anim) {
-            pathEl.setAttribute('fill', 'black');
-            g[0].setAttribute('fill', 'black');
+            pathEl.setAttribute('fill', `${_object._fill}`);
+            g[0].setAttribute('fill', `${_object._fill}`);
           },
           autoplay: true
         });
       }
-    } else if (animation_type == 'fade-in') {
+    } else if (animation_type === 'fade-in') {
       console.log('fadeIn called');
 
       anime({
@@ -116,7 +116,7 @@ export function play(
         duration: timeDuration,
         delay: anime.stagger(180, { start: 1000 })
       });
-    } else if (animation_type == 'appear') {
+    } else if (animation_type === 'appear') {
       console.log('appear called');
 
       anime({
@@ -132,7 +132,7 @@ export function play(
         duration: timeDuration,
         delay: anime.stagger(180, { start: 1000, direction: 'normal'})
       });
-    } else if (animation_type == 'dissolve') {
+    } else if (animation_type === 'dissolve') {
       console.log('dissolve called');
       //add(_object);
       anime({
@@ -148,7 +148,7 @@ export function play(
         duration: timeDuration,
         delay: anime.stagger(180, { start: 1000 })
       });
-    } else if (animation_type == 'fade-out') {
+    } else if (animation_type === 'fade-out') {
       console.log('fadeout called');
 
       anime({
@@ -164,7 +164,7 @@ export function play(
         duration: timeDuration,
         delay: anime.stagger(180, { start: 1000 })
       });
-    } else if (animation_type == 'blink') {
+    } else if (animation_type === 'blink') {
       console.log('blink');
 
       const animation: any = anime({
@@ -187,7 +187,7 @@ export function play(
   else if (_object instanceof Text) {
     console.log('Text');
     _object.writeTextElement.style('opacity', '1');
-    if (animation_type == 'write') {
+    if (animation_type === 'write') {
       anime.timeline({ loop: false }).add({
         targets: _object.writeTextElement.elt.querySelectorAll('.letter'),
         scale: [4, 1],
@@ -197,7 +197,7 @@ export function play(
         duration: 950,
         delay: anime.stagger(180, { start: timeDuration }) //time duration must be replaced with delay
       });
-    } else if (animation_type == 'all-at-once') {
+    } else if (animation_type === 'all-at-once') {
       console.log('all at once');
     }
   }
