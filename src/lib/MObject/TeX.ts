@@ -1,4 +1,5 @@
 import TeXToSVG from 'tex-to-svg';
+import { play } from '../Scene/play';
 
 //TODO : duration automation and clear
 
@@ -36,7 +37,7 @@ export class TeX {
   sentence: string;
   _stroke: string;
   _strokeWidth: number;
-  _fill: any;
+  _fill: string;
   constructor(
     sentence: string,
     //timeDuration: number,
@@ -57,6 +58,44 @@ export class TeX {
     this._fill = 'black';
   }
 
+  position(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
+  size(w: number, h: number) {
+    this.width_svg = w;
+    this.height_svg = h;
+  }
+
+  stroke(strokeColor: string) {
+    if (arguments.length === 0) {
+      return this._stroke;
+    } else {
+      this._stroke = strokeColor;
+    }
+  }
+
+  strokeWidth(w: number) {
+    if (arguments.length === 0) {
+      return this._strokeWidth;
+    } else {
+      this._strokeWidth = w;
+    }
+  }
+
+  fill(fillColor: string) {
+    if (arguments.length === 0) {
+      return this._fill;
+    } else {
+      this._fill = fillColor;
+    }
+  }
+
+  play(animationType: string = 'all-at-once', timeDuration: number = 0) {
+    play(this, animationType, timeDuration);
+  }
+
   // all_at_once(timeDuration: number) {
 
   // }
@@ -66,4 +105,8 @@ export class TeX {
   // }
 
   // position and scaling methods
+}
+
+export function createTeX() {
+  return new TeX(...arguments);
 }

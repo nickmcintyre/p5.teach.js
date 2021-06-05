@@ -38422,137 +38422,7 @@ function TeXToSVG(str, opts) {
 
 module.exports = TeXToSVG;
 
-},{"mathjax-full/js/mathjax.js":"../node_modules/mathjax-full/js/mathjax.js","mathjax-full/js/input/tex.js":"../node_modules/mathjax-full/js/input/tex.js","mathjax-full/js/output/svg.js":"../node_modules/mathjax-full/js/output/svg.js","mathjax-full/js/adaptors/liteAdaptor.js":"../node_modules/mathjax-full/js/adaptors/liteAdaptor.js","mathjax-full/js/handlers/html.js":"../node_modules/mathjax-full/js/handlers/html.js","mathjax-full/js/a11y/assistive-mml.js":"../node_modules/mathjax-full/js/a11y/assistive-mml.js","mathjax-full/js/input/tex/AllPackages.js":"../node_modules/mathjax-full/js/input/tex/AllPackages.js"}],"lib/MObject/TeX.ts":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.TeX = void 0;
-
-var tex_to_svg_1 = __importDefault(require("tex-to-svg")); //TODO : duration automation and clear
-
-/**
- * TeX class
- *
- * @param    {String} - escaped TeX input
- * @param    {number} - x
- * @param    {number} - y
- * @param    {number} - width
- * @param    {number} - height
- *
- * @example
- *
- * example for playing animation of type 'appear' for TeX object:
- * ```js
- * let tex_1 = new TeX(
- *  '\\ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-}\\overrightarrow{F}_{12} = k_e \\frac{q_1 q_2}{r^2}',
- *   200,
- *   300,
- *   200,
- *   100
- * );
- * ```
- * @experimental
- */
-
-
-var TeX =
-/** @class */
-function () {
-  function TeX(sentence, //timeDuration: number,
-  x, y, width_svg, height_svg) {
-    if (x === void 0) {
-      x = 10;
-    }
-
-    if (y === void 0) {
-      y = 10;
-    }
-
-    if (width_svg === void 0) {
-      width_svg = 300;
-    }
-
-    if (height_svg === void 0) {
-      height_svg = 300;
-    } //timeDuration: number; // left for later decision -> need not specify such details at initialisation
-
-
-    this.x = 10;
-    this.y = 10; //this.timeDuration = timeDuration;
-
-    this.x = x;
-    this.y = y;
-    this.sentence = sentence;
-    this.width_svg = width_svg;
-    this.height_svg = height_svg;
-    this.SVGEquation = tex_to_svg_1.default(sentence);
-    this._stroke = 'black';
-    this._strokeWidth = 10;
-    this._fill = 'black';
-  }
-
-  return TeX;
-}();
-
-exports.TeX = TeX;
-},{"tex-to-svg":"../node_modules/tex-to-svg/TeXToSVG.js"}],"lib/Scene/shift.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.shift = void 0; //only works if object has been added to the scene
-
-function shift(_object, x, y) {
-  _object.x = x;
-  _object.y = y;
-
-  if (_object.writeTexElement) {
-    _object.writeTexElement.position(_object.x, _object.y);
-  } else if (_object.writeTextElement) {
-    _object.writeTextElement.position(_object.x, _object.y);
-  }
-}
-
-exports.shift = shift;
-},{}],"lib/Scene/scale.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.T_scale = void 0;
-
-var TeX_1 = require("../MObject/TeX");
-
-var Text_1 = require("../MObject/Text"); //TODO : clean and comment
-//TODO : test
-
-
-function T_scale(_object, scale_to) {
-  _object.width_svg = scale_to * _object.width_svg;
-  _object.height_svg = scale_to * _object.height_svg;
-
-  if (_object instanceof TeX_1.TeX && _object.writeTexElement.elt.querySelectorAll('svg')) {
-    var svg = _object.writeTexElement.elt.querySelectorAll('svg');
-
-    svg[0].setAttribute('width', _object.width_svg + "px");
-    svg[0].setAttribute('height', _object.height_svg + "px");
-  } else if (_object instanceof Text_1.Text && _object.writeTextElement.elt.querySelectorAll('svg')) {
-    _object.writeTextElement.style('font-size', _object.size * scale_to + "px");
-  }
-}
-
-exports.T_scale = T_scale;
-},{"../MObject/TeX":"lib/MObject/TeX.ts","../MObject/Text":"lib/MObject/Text.ts"}],"../node_modules/animejs/lib/anime.es.js":[function(require,module,exports) {
+},{"mathjax-full/js/mathjax.js":"../node_modules/mathjax-full/js/mathjax.js","mathjax-full/js/input/tex.js":"../node_modules/mathjax-full/js/input/tex.js","mathjax-full/js/output/svg.js":"../node_modules/mathjax-full/js/output/svg.js","mathjax-full/js/adaptors/liteAdaptor.js":"../node_modules/mathjax-full/js/adaptors/liteAdaptor.js","mathjax-full/js/handlers/html.js":"../node_modules/mathjax-full/js/handlers/html.js","mathjax-full/js/a11y/assistive-mml.js":"../node_modules/mathjax-full/js/a11y/assistive-mml.js","mathjax-full/js/input/tex/AllPackages.js":"../node_modules/mathjax-full/js/input/tex/AllPackages.js"}],"../node_modules/animejs/lib/anime.es.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40598,7 +40468,199 @@ function play(_object, animation_type, timeDuration) {
 }
 
 exports.play = play;
-},{"../MObject/TeX":"lib/MObject/TeX.ts","../MObject/Text":"lib/MObject/Text.ts","animejs":"../node_modules/animejs/lib/anime.es.js","./add":"lib/Scene/add.ts"}],"index.ts":[function(require,module,exports) {
+},{"../MObject/TeX":"lib/MObject/TeX.ts","../MObject/Text":"lib/MObject/Text.ts","animejs":"../node_modules/animejs/lib/anime.es.js","./add":"lib/Scene/add.ts"}],"lib/MObject/TeX.ts":[function(require,module,exports) {
+"use strict";
+
+var __spreadArray = this && this.__spreadArray || function (to, from) {
+  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
+    to[j] = from[i];
+  }
+
+  return to;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createTeX = exports.TeX = void 0;
+
+var tex_to_svg_1 = __importDefault(require("tex-to-svg"));
+
+var play_1 = require("../Scene/play"); //TODO : duration automation and clear
+
+/**
+ * TeX class
+ *
+ * @param    {String} - escaped TeX input
+ * @param    {number} - x
+ * @param    {number} - y
+ * @param    {number} - width
+ * @param    {number} - height
+ *
+ * @example
+ *
+ * example for playing animation of type 'appear' for TeX object:
+ * ```js
+ * let tex_1 = new TeX(
+ *  '\\ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-}\\overrightarrow{F}_{12} = k_e \\frac{q_1 q_2}{r^2}',
+ *   200,
+ *   300,
+ *   200,
+ *   100
+ * );
+ * ```
+ * @experimental
+ */
+
+
+var TeX =
+/** @class */
+function () {
+  function TeX(sentence, //timeDuration: number,
+  x, y, width_svg, height_svg) {
+    if (x === void 0) {
+      x = 10;
+    }
+
+    if (y === void 0) {
+      y = 10;
+    }
+
+    if (width_svg === void 0) {
+      width_svg = 300;
+    }
+
+    if (height_svg === void 0) {
+      height_svg = 300;
+    } //timeDuration: number; // left for later decision -> need not specify such details at initialisation
+
+
+    this.x = 10;
+    this.y = 10; //this.timeDuration = timeDuration;
+
+    this.x = x;
+    this.y = y;
+    this.sentence = sentence;
+    this.width_svg = width_svg;
+    this.height_svg = height_svg;
+    this.SVGEquation = tex_to_svg_1.default(sentence);
+    this._stroke = 'black';
+    this._strokeWidth = 10;
+    this._fill = 'black';
+  }
+
+  TeX.prototype.position = function (x, y) {
+    this.x = x;
+    this.y = y;
+  };
+
+  TeX.prototype.size = function (w, h) {
+    this.width_svg = w;
+    this.height_svg = h;
+  };
+
+  TeX.prototype.stroke = function (strokeColor) {
+    if (arguments.length === 0) {
+      return this._stroke;
+    } else {
+      this._stroke = strokeColor;
+    }
+  };
+
+  TeX.prototype.strokeWidth = function (w) {
+    if (arguments.length === 0) {
+      return this._strokeWidth;
+    } else {
+      this._strokeWidth = w;
+    }
+  };
+
+  TeX.prototype.fill = function (fillColor) {
+    if (arguments.length === 0) {
+      return this._fill;
+    } else {
+      this._fill = fillColor;
+    }
+  };
+
+  TeX.prototype.play = function (animationType, timeDuration) {
+    if (animationType === void 0) {
+      animationType = 'all-at-once';
+    }
+
+    if (timeDuration === void 0) {
+      timeDuration = 0;
+    }
+
+    play_1.play(this, animationType, timeDuration);
+  };
+
+  return TeX;
+}();
+
+exports.TeX = TeX;
+
+function createTeX() {
+  return new (TeX.bind.apply(TeX, __spreadArray([void 0], arguments)))();
+}
+
+exports.createTeX = createTeX;
+},{"tex-to-svg":"../node_modules/tex-to-svg/TeXToSVG.js","../Scene/play":"lib/Scene/play.ts"}],"lib/Scene/shift.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.shift = void 0; //only works if object has been added to the scene
+
+function shift(_object, x, y) {
+  _object.x = x;
+  _object.y = y;
+
+  if (_object.writeTexElement) {
+    _object.writeTexElement.position(_object.x, _object.y);
+  } else if (_object.writeTextElement) {
+    _object.writeTextElement.position(_object.x, _object.y);
+  }
+}
+
+exports.shift = shift;
+},{}],"lib/Scene/scale.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.T_scale = void 0;
+
+var TeX_1 = require("../MObject/TeX");
+
+var Text_1 = require("../MObject/Text"); //TODO : clean and comment
+//TODO : test
+
+
+function T_scale(_object, scale_to) {
+  _object.width_svg = scale_to * _object.width_svg;
+  _object.height_svg = scale_to * _object.height_svg;
+
+  if (_object instanceof TeX_1.TeX && _object.writeTexElement.elt.querySelectorAll('svg')) {
+    var svg = _object.writeTexElement.elt.querySelectorAll('svg');
+
+    svg[0].setAttribute('width', _object.width_svg + "px");
+    svg[0].setAttribute('height', _object.height_svg + "px");
+  } else if (_object instanceof Text_1.Text && _object.writeTextElement.elt.querySelectorAll('svg')) {
+    _object.writeTextElement.style('font-size', _object.size * scale_to + "px");
+  }
+}
+
+exports.T_scale = T_scale;
+},{"../MObject/TeX":"lib/MObject/TeX.ts","../MObject/Text":"lib/MObject/Text.ts"}],"index.ts":[function(require,module,exports) {
 
 "use strict";
 
@@ -40617,6 +40679,7 @@ global.Text = Text_1.Text;
 
 var TeX_1 = require("./lib/MObject/TeX");
 
+global.createTeX = TeX_1.createTeX;
 global.TeX = TeX_1.TeX;
 
 var shift_1 = require("./lib/Scene/shift");
@@ -40662,7 +40725,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57984" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60314" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

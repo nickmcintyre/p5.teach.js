@@ -8,8 +8,9 @@ import { Text } from './lib/MObject/Text';
 
 global.Text = Text;
 
-import { TeX } from './lib/MObject/TeX';
+import { createTeX, TeX } from './lib/MObject/TeX';
 
+global.createTeX = createTeX;
 global.TeX = TeX;
 
 import { shift } from './lib/Scene/shift';
