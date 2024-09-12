@@ -1,5 +1,8 @@
 import TeXToSVG from 'tex-to-svg';
+import { TexObject } from '../interfaces';
+import { add } from '../Scene/add';
 import { play } from '../Scene/play';
+import { MObject } from './MObject';
 
 //TODO : add test cases
 
@@ -26,70 +29,106 @@ import { play } from '../Scene/play';
  * ```
  * @experimental
  */
-export class TeX {
-  writeTexElement: any;
-  SVGEquation: any;
-  //timeDuration: number; // left for later decision -> need not specify such details at initialisation
-  x: number = 10;
-  y: number = 10;
-  width_svg: number;
-  height_svg: number;
-  sentence: string;
-  fillColor: p5.Color;
-  strokeWidth: number;
+export class TeX extends MObject {
+  svgEquation: string;
+  //startTime: number; // left for later decision -> need not specify such details at initialisation
+  //_tex: string;
+
+  //_size: number; //px -> font size
+  // svgWidth: number;
+  // svgHeight: number;
+  _strokeWidth: number;
   strokeColor: p5.Color;
-  constructor(
-    sentence: string,
-    x: number = 10,
-    y: number = 10,
-    width_svg: number = 300,
-    height_svg: number = 300
-  ) {
-    this.x = x;
-    this.y = y;
-    this.sentence = sentence;
-    this.width_svg = width_svg;
-    this.height_svg = height_svg;
-    this.SVGEquation = TeXToSVG(sentence);
-    this.fillColor = color('black');
-    this.strokeWidth = 0;
+  constructor({
+    _tex,
+    x = 10,
+    y = 10,
+    _size = 28
+  }: TexObject) {
+    super(_tex, x, y,_size);
+    //this._tex = _tex;
+    // this._size = _size; //px
+    // this.svgWidth = svgWidth;
+    // this.svgHeight = svgHeight;
+    this.svgEquation = TeXToSVG(_tex);
+    this._strokeWidth = 8;
     this.strokeColor = color('black');
   }
 
   position(x: number = 10, y: number = 10) {
-    this.x = x;
-    this.y = y;
+    if (arguments.length === 0) {
+      return [this.x, this.y];
+    } else {
+      this.x = x;
+      this.y = y;
+    }
   }
 
-  size(width_svg: number = 300, height_svg: number = 300) {
-    this.width_svg = width_svg;
-    this.height_svg = height_svg;
+  size(_size: number = 28) {
+    if (arguments.length === 0) {
+      return this._size;
+    } else {
+      this._size = _size;
+    }
   }
 
-  fill(fillColor: p5.Color) {
+  stroke(strokeColor: any = color('black')) {
+    if (arguments.length === 0) {
+      return this.strokeColor;
+    } else {
+      this.strokeColor = color(strokeColor);
+    }
+  }
+  strokeWidth(_strokeWidth: number = 8) {
+    if (arguments.length === 0) {
+      return this._strokeWidth;
+    } else {
+      this._strokeWidth = _strokeWidth;
+    }
+  }
+
+  fill(fillColor: any = color('black')) {
     if (arguments.length === 0) {
       return this.fillColor;
     } else {
-      this.fillColor = fillColor;
+      this.fillColor = color(fillColor);
     }
+  }
+
+  remove() {
+    //TODO : should throw error if called on object which has not been added
+    this.writeElement.remove();
+  }
+
+  add() {
+    add(this);
+    //this.writeTexElement.style('opacity', '1');
   }
 
   play(
     animationType: string = 'write',
-    timeDuration: number = 0,
-    delayDuration: number = 0
+    startTime: number = 0,
+    endTime: number = 0
   ) {
-    play(this, animationType, timeDuration, delayDuration);
+    play(this, animationType, startTime, endTime);
   }
 }
 
-export function createTeX(
-  sentence: string,
-  x: number = 10,
-  y: number = 10,
-  width_svg: number = 300,
-  height_svg: number = 300
-) {
-  const object = new TeX(sentence, x, y, width_svg, height_svg);
-  return object;
+export function createTeX(...args: any[]) {
+  const _texArg: TexObject = {
+    _tex: args[0],
+    x: args[1],
+    y: args[2],
+    _size: args[3]
+  };
+  if (
+    !(typeof _texArg._size == 'undefined' || typeof _texArg._size == 'number')
+  ) {
+    //size
+    throw new Error('size must be passed as number');
+  } else if (!(typeof _texArg._size == 'undefined') && _texArg._size < 0) {
+    //size
+    throw new Error('size of text should be a whole number!');
+  }
+  return new TeX(_texArg);
 }
